@@ -68,7 +68,7 @@ const MovieList = () => {
   }, [])
   
   return (
-    <div className='max-w-[1240px] mx-auto text-center py-24'>
+    <div className='max-w-[1240px] mx-auto text-center py-10'>
       <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Movie DB</h1>
       <div>
         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -80,7 +80,7 @@ const MovieList = () => {
           <button type="button" onClick={handleSearch} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
         </div>
       </div>
-      <div className='max-w-[1240px] mx-auto text-center py-24'>
+      <div className='max-w-[1240px] mx-auto text-center py-10'>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 p-4'>
           {
             (loading)
@@ -90,16 +90,16 @@ const MovieList = () => {
               (
                 (imgArray.length==0) 
                 ? 
-                  <div> No Movies Found </div>
+                  <h6 class="mb-1 text-xl text-center font-extrabold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">No Movies Found</h6>
                 : 
                   imgArray.map(img => <MovieTile movieData={img} key={img.id} />)
               )
           }   
         </div>
       </div>
-      <div className='flex flex-col'>
+      <div className='flex flex-col text-left my-2'>
         <span class="text-sm text-gray-700 dark:text-gray-400">
-          Showing <span class="font-semibold text-gray-900 dark:text-white">{(page-1)*20+1}</span> to <span class="font-semibold text-gray-900 dark:text-white">{page*20}</span> of <span class="font-semibold text-gray-900 dark:text-white">{totalEntries}</span> Entries
+          Showing <span class="font-semibold text-gray-900 dark:text-white">{Math.min(totalEntries, (page-1)*20+1)}</span> to <span class="font-semibold text-gray-900 dark:text-white">{Math.min(totalEntries, page*20)}</span> of <span class="font-semibold text-gray-900 dark:text-white">{totalEntries}</span> Entries
         </span>
       </div>
       <div className="flex flex-row mx-auto te">
