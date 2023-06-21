@@ -12,6 +12,7 @@ const MovieList = () => {
   const [totalEntries, setTotalEntries] = useState(1);
   const [disableNextButton, setDisableNextButton] = useState(false);
   const [disablePrevButton, setDisablePrevButton] = useState(false);
+  const [search, setSearch] = useState(false);
   // const [sort_by, setSort_by] = useState("popularity");
   // const [order, setOrder] = useState("desc");
   function handleChange(event) {
@@ -39,9 +40,10 @@ const MovieList = () => {
     });
   }
   function handleSearch() {
-    page = 1;
-    setPage(1);
-    getMovies(searchMovies);
+    if(query){
+      setPage(1);
+      setSearch(!search);
+    }
   }
   function getSearchParams(){
     const params = {page}
@@ -50,26 +52,25 @@ const MovieList = () => {
     return params
   }
   function goToNextPage() {
-    setPage(page+=1);
-    if (query)
-      getMovies(searchMovies);
-    else
-      getMovies(getPopularMovies);
+    setPage(page+1);
   }
   function goToPrevPage() {
-    setPage(page-=1);
-    if (query)
-      getMovies(searchMovies);
-    else
-      getMovies(getPopularMovies);
+    setPage(page-1);
   }
   useEffect(()=> {
-    getMovies(getPopularMovies);
-  }, [])
+    getMovies(getAPI());
+  }, [page, search])
+  
+  function getAPI() {
+    if (query)
+      return searchMovies;
+    else
+      return getPopularMovies;
+  }
   
   return (
     <div className='max-w-[1240px] mx-auto text-center py-10'>
-      <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Movie DB</h1>
+      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Movie DB</h1>
       <div>
         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
         <div className="relative">
@@ -85,12 +86,12 @@ const MovieList = () => {
           {
             (loading)
             ? 
-              <img class="mx-auto" src="https://media.tenor.com/FBeNVFjn-EkAAAAC/ben-redblock-loading.gif"/>
+              <img className="mx-auto" src="https://media.tenor.com/FBeNVFjn-EkAAAAC/ben-redblock-loading.gif"/>
             :
               (
                 (imgArray.length==0) 
                 ? 
-                  <h6 class="mb-1 text-xl text-center font-extrabold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">No Movies Found</h6>
+                  <h6 className="mb-1 text-xl text-center font-extrabold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">No Movies Found</h6>
                 : 
                   imgArray.map(img => <MovieTile movieData={img} key={img.id} />)
               )
@@ -98,15 +99,27 @@ const MovieList = () => {
         </div>
       </div>
       <div className='flex flex-col text-left my-2'>
-        <span class="text-sm text-gray-700 dark:text-gray-400">
-          Showing <span class="font-semibold text-gray-900 dark:text-white">{Math.min(totalEntries, (page-1)*20+1)}</span> to <span class="font-semibold text-gray-900 dark:text-white">{Math.min(totalEntries, page*20)}</span> of <span class="font-semibold text-gray-900 dark:text-white">{totalEntries}</span> Entries
+        <span className="text-sm text-gray-700 dark:text-gray-400">
+          Showing&nbsp;
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {Math.min(totalEntries, (page-1)*20+1)}&nbsp;
+          </span> 
+          to&nbsp;
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {Math.min(totalEntries, page*20)}&nbsp;
+          </span>
+          of&nbsp;
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {totalEntries}&nbsp;
+          </span> 
+          Entries
         </span>
       </div>
       <div className="flex flex-row mx-auto te">
         <button type="button" onClick={goToPrevPage} disabled={disablePrevButton} className="bg-gray-800 text-white rounded-l-md border-r border-gray-100 py-2 hover:bg-red-700 hover:text-white px-3">
           <div className="flex flex-row align-middle">
             <svg className="w-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+              <path fillRule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd"></path>
             </svg>
             <p className="ml-2">Prev</p>
           </div>
@@ -115,7 +128,7 @@ const MovieList = () => {
           <div className="flex flex-row align-middle">
             <span className="mr-2">Next</span>
             <svg className="w-5 ml-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"></path>
             </svg>
           </div>
         </button>

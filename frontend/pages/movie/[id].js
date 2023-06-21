@@ -1,5 +1,5 @@
-
-import MovieDetails from "../../components/MovieDetails";
+import dynamic from 'next/dynamic'
+const MovieDetails = dynamic(() => import("../../components/MovieDetails"));
 
 export default function Movie() {
   return <MovieDetails />;
