@@ -1,11 +1,11 @@
 import supertest from 'supertest';
-import app from "../app"
+import app from '../app';
 
 const request = supertest(app);
 
 describe('GET /movies. movies.controller.getPopularMovies() tests', () => {
   it('Expect status 200 with an array of objects as response', async () => {
-    const res = await request.get('/movies').query({page: 1});
+    const res = await request.get('/movies').query({ page: 1 });
 
     expect(res.status).toBe(200);
 
@@ -22,7 +22,7 @@ describe('GET /movies. movies.controller.getPopularMovies() tests', () => {
 
 describe('GET /movies/search. movies.controller.searchMovies() tests', () => {
   it('Expect status 200 with an array of objects as response', async () => {
-    const res = await request.get('/movies/search').query({query: "avengers"});
+    const res = await request.get('/movies/search').query({ query: 'avengers' });
 
     expect(res.status).toBe(200);
 
@@ -40,7 +40,7 @@ describe('GET /movies/search. movies.controller.searchMovies() tests', () => {
 describe('GET /movies/details. movies.controller.getMovieDetails() tests', () => {
   const id = 385687;
   it('Expect status 200 with an array of objects as response', async () => {
-    const res = await request.get('/movies/details').query({id});
+    const res = await request.get('/movies/details').query({ id });
 
     expect(res.status).toBe(200);
 

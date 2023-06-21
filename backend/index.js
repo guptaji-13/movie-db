@@ -1,14 +1,14 @@
-import app from "./app.js"
-import redis from './middleware/redis.js'
-import http from 'http'
+import http from 'http';
+import app from './app';
+import redis from './middleware/redis';
 
 const port = process.env.PORT || 4040;
 
 const server = http.createServer(app);
 
-server.listen(port, ()=>{
+server.listen(port, () => {
   console.log(`Listening to port ${port}`);
-  redis.client.connect().then(()=> {
-    console.log('redis is connected')
-  })
-})
+  redis.client.connect().then(() => {
+    console.log('redis is connected');
+  });
+});
