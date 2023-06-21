@@ -17,7 +17,7 @@ const app = express();
 //   }
 // }
 // app.use(cors(corsOptions));
-app.use(redis.cache);
+// app.use(redis.cache);
 
 app.use("/movies", movieRoute);
 
