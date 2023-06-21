@@ -1,9 +1,16 @@
 import * as redis from 'redis';
 
 const client = redis.createClient({
-  host: '127.0.0.1',
-  port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
 });
+client.connect().then(() => {
+  console.log('redis is connected');
+});
+
+client.on('error',(error) => {
+  console.log('Redis connection error :', error);
+})
 async function cache(req, res, next) {
   const key = `__express__${req.originalUrl}` || req.url;
 
