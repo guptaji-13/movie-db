@@ -6,7 +6,7 @@ import redis from './middleware/redis.js';
 
 dotenv.config({ path: '.env' });
 const app = express();
-// app.use(redis.cache);
+app.use(redis.cache);
 app.use(cors({
   origin: '*',
   'Access-Control-Allow-Origin': '*',
