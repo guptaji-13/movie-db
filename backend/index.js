@@ -1,26 +1,14 @@
-import express from 'express';
-import movieRoute from './movies/movies.route.js';
-import dotenv from 'dotenv';
-import cors from 'cors';
-dotenv.config({path: '.env'})
+import app from "./app.js"
+import redis from './middleware/redis.js'
+import http from 'http'
 
-const app = express();
 const port = process.env.PORT || 4040;
 
-const whitelist = ['http://localhost:3000', 'http://localhost:4040'];
-const corsOptions = {
-  credentials: true,
-  exposedHeaders: ["set-cookie"],
-  origin: (origin, callback) => {
-    if(whitelist.includes(origin))
-      return callback(null, true)
-      callback(new Error('Not allowed by CORS'));
-  }
-}
-app.use(cors(corsOptions));
+const server = http.createServer(app);
 
-app.use("/movies", movieRoute);
-
-app.listen(port, ()=>{
-  console.log(`Listening to port ${port}`)
+server.listen(port, ()=>{
+  console.log(`Listening to port ${port}`);
+  redis.client.connect().then(()=> {
+    console.log('redis is connected')
+  })
 })

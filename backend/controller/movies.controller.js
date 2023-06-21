@@ -1,4 +1,4 @@
-import moviesService from "./movies.service.js";
+import moviesService from "../services/movies.service.js";
 
 const getPopularMovies = async (req, res, next) => {
   try {
