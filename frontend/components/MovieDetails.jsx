@@ -31,7 +31,7 @@ const MovieDetails = () => {
       <div className="max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-6xl">
         <div className="md:flex">
           <div className="md:shrink-0">
-            <img className="md:w-full h-80 object-cover md:w-full" src={`https://image.tmdb.org/t/p/w500${details.poster_path}`} alt={details.original_title}/>
+            <img className="md:w-60 w-full object-cover" src={`https://image.tmdb.org/t/p/w500${details.poster_path}`} alt={details.original_title}/>
           </div>
           <div className="flex flex-col p-8">
           <h3 className="font-bold text-4xl md:text-2xl lg:text-2xl text-gray-200 movie--title">{details.original_title}</h3>
